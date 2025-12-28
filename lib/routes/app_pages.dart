@@ -1,4 +1,8 @@
 import 'package:get/get.dart';
+import 'package:task/presentation/clients/add_client/add_client_binding.dart';
+import 'package:task/presentation/clients/add_client/add_client_view.dart';
+import 'package:task/presentation/clients/client_list/client_list_binding.dart';
+import 'package:task/presentation/clients/client_list/client_list_view.dart';
 import 'package:task/presentation/dashboard/dashboard_binding.dart';
 import '../presentation/auth/login/login_view.dart';
 import '../presentation/auth/login/login_binding.dart';
@@ -21,6 +25,16 @@ class AppPages {
       name: AppRoutes.dashboard,
       page: () => const DashboardView(),
       binding: DashboardBinding(),
+    ),
+     GetPage(
+      name: AppRoutes.clients,
+      page: () => const ClientListView(),
+      binding: ClientListBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.addClient,
+      page: () => const AddClientView(),
+      binding: AddClientBinding(),
     ),
   ];
 }
