@@ -12,17 +12,37 @@ CRM-style Flutter application for managing clients and services.
 - Flutter
 - Dart
 - GetX
+- Firebase
+- Hive
 
-## Getting Started
+## Folder Structure
+lib/
+├── core/
+│   ├── constants/
+│   ├── services/
+│   └── utils/
+├── data/
+│   ├── models/
+│   └── repositories/
+├── presentation/
+│   ├── clients/
+│   └── auth/
+├── routes/
+└── main.dart
 
+## Architecture
+- Presentation layer: UI + GetX controllers
+- Data layer: repositories & services
+- Core layer: shared utilities & constants
+
+## Setup Instructions
+
+### Prerequisites
+- Flutter SDK
+- Android Studio / Xcode
+- Git
+
+### Run locally
 ```bash
 flutter pub get
 flutter run
-
-Save the file.
-
----
-
-### 3️⃣ Mark the conflict as resolved
-```bash
-git add README.md
