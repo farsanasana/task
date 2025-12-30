@@ -83,6 +83,24 @@ class LoginView extends GetView<LoginViewModel> {
                               style: TextStyle(fontSize: 16),
                             ),
                     )),
+const SizedBox(height: 16),
+
+/// 👉 CREATE ACCOUNT
+Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    const Text("Don't have an account? "),
+    TextButton(
+      onPressed: () {
+        Get.toNamed('/signup'); // 🔥 Navigate to Signup
+      },
+      child: const Text(
+        'Create Account',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+    ),
+  ],
+),
 
                 const SizedBox(height: 12),
 

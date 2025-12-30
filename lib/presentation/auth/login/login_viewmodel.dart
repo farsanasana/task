@@ -88,10 +88,5 @@ if (user != null) {
     return true;
   }
 
-  @override
-  void onClose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.onClose();
-  }
+ 
 }

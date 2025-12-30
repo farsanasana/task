@@ -96,6 +96,17 @@ class AddClientView extends GetView<AddClientViewModel> {
               ),
             ),
             const SizedBox(height: 16),
+            /// Address
+TextField(
+  controller: controller.addressController,
+  maxLines: 2,
+  decoration: const InputDecoration(
+    labelText: 'Address',
+    border: OutlineInputBorder(),
+  ),
+),
+const SizedBox(height: 12),
+
 
             /// GPS Location
             Obx(

@@ -1,13 +1,12 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import '../../data/data sources/local/hive_auth_datasource.dart';
 import '../../data/data sources/remote/dashboard_firebase_datasource.dart';
 import '../../data/models/client_model.dart';
 import '../../routes/app_routes.dart';
-
 
 class DashboardViewModel extends GetxController {
   final totalClients = 0.obs;
@@ -16,50 +15,50 @@ class DashboardViewModel extends GetxController {
 
   final _datasource = DashboardFirebaseDatasource();
 
+  late StreamSubscription<int> _countSub;
+  late StreamSubscription<List<ClientModel>> _recentSub;
+
   @override
   void onInit() {
     super.onInit();
     _loadDashboard();
   }
 
+  void _loadDashboard() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
 
-late StreamSubscription _countSub;
-late StreamSubscription _recentSub;
+    _countSub = _datasource.totalClients(user.uid).listen((count) {
+      totalClients.value = count;
+    });
 
-void _loadDashboard() {
-  final user = FirebaseAuth.instance.currentUser;
-  if (user == null) return;
+    _recentSub = _datasource.recentClients(user.uid).listen((clients) {
+      recentClients.assignAll(clients); // ✅ FIX
+      isLoading.value = false;
+    });
+  }
 
-  _countSub = _datasource.totalClients(user.uid).listen((count) {
-    totalClients.value = count;
-  });
+  /// 🗑️ Delete client
+  Future<void> deleteClient(String clientId) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
 
-  _recentSub = _datasource.recentClients(user.uid).listen((clients) {
-    recentClients.value = clients;
-    isLoading.value = false;
-  });
-}
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('clients')
+        .doc(clientId)
+        .delete();
 
-Future<void> deleteClient(String clientId) async {
-  final user = FirebaseAuth.instance.currentUser;
-  if (user == null) return;
+    Get.snackbar('Deleted', 'Client removed successfully');
+  }
 
-  await FirebaseFirestore.instance
-      .collection('users')
-      .doc(user.uid)
-      .collection('clients')
-      .doc(clientId)
-      .delete();
-
-  Get.snackbar('Deleted', 'Client removed successfully');
-}
-
-@override
-void onClose() {
-  _countSub.cancel();
-  _recentSub.cancel();
-  super.onClose();
-}
+  @override
+  void onClose() {
+    _countSub.cancel();
+    _recentSub.cancel();
+    super.onClose();
+  }
 
   Future<void> logout() async {
     await FirebaseAuth.instance.signOut();

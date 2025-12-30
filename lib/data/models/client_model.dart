@@ -13,6 +13,9 @@ class ClientModel {
   final double longitude;
   final String address;
   final Timestamp createdAt;
+  final String notes;
+  final String remarks;
+  final Timestamp? followUpDate;
 
   ClientModel({
     required this.id,
@@ -27,6 +30,9 @@ class ClientModel {
     required this.longitude,
     required this.address,
     required this.createdAt,
+    required this.notes,
+    required this.remarks,
+    this.followUpDate,
   });
 
   /// 🔁 Firestore → Model
@@ -46,6 +52,9 @@ class ClientModel {
       longitude: (data['longitude'] ?? 0).toDouble(),
       address: data['address'] ?? '',
       createdAt: data['createdAt'] ?? Timestamp.now(),
+      notes: data['notes'] ?? '',
+      remarks: data['remarks'] ?? '',
+      followUpDate: data['followUpDate'],
     );
   }
 
@@ -62,5 +71,10 @@ class ClientModel {
         'longitude': longitude,
         'address': address,
         'createdAt': createdAt,
+
+      
+        'notes': notes,
+        'remarks': remarks,
+        'followUpDate': followUpDate,
       };
 }

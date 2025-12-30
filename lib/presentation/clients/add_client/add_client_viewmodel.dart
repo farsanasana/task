@@ -10,6 +10,7 @@ class AddClientViewModel extends GetxController {
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final companyController = TextEditingController();
+  final addressController = TextEditingController();
 
   /// Dropdown values
   final businessType = ''.obs;
@@ -62,6 +63,7 @@ Future<void> saveClient() async {
     'name': nameController.text.trim(),
     'phone': phoneController.text.trim(),
     'company': companyController.text.trim(),
+     'address': addressController.text.trim(),
     'businessType': businessType.value,
     'usingSystem': usingSystem.value,
     'customerPotential': customerPotential.value,
@@ -97,6 +99,7 @@ Future<void> saveClient() async {
     nameController.dispose();
     phoneController.dispose();
     companyController.dispose();
+    addressController.dispose();
     super.onClose();
   }
 }
