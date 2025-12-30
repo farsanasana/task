@@ -27,7 +27,7 @@ class AddClientView extends GetView<AddClientViewModel> {
             TextField(
               controller: controller.phoneController,
               keyboardType: TextInputType.number,
-              
+
               decoration: const InputDecoration(
                 labelText: 'Phone Number *',
                 border: OutlineInputBorder(),
@@ -46,76 +46,78 @@ class AddClientView extends GetView<AddClientViewModel> {
             const SizedBox(height: 12),
 
             /// Type of Business (Dropdown – Mandatory)
-            Obx(() => DropdownButtonFormField<String>(
-                  value: controller.businessType.value.isEmpty
-                      ? null
-                      : controller.businessType.value,
-                  items: const [
-                    DropdownMenuItem(
-                        value: 'Retail', child: Text('Retail')),
-                    DropdownMenuItem(
-                        value: 'Service', child: Text('Service')),
-                    DropdownMenuItem(
-                        value: 'Manufacturing',
-                        child: Text('Manufacturing')),
-                  ],
-                  onChanged: (val) =>
-                      controller.businessType.value = val!,
-                  decoration: const InputDecoration(
-                    labelText: 'Type of Business *',
-                    border: OutlineInputBorder(),
+            Obx(
+              () => DropdownButtonFormField<String>(
+                value: controller.businessType.value.isEmpty
+                    ? null
+                    : controller.businessType.value,
+                items: const [
+                  DropdownMenuItem(value: 'Retail', child: Text('Retail')),
+                  DropdownMenuItem(value: 'Service', child: Text('Service')),
+                  DropdownMenuItem(
+                    value: 'Manufacturing',
+                    child: Text('Manufacturing'),
                   ),
-                )),
+                ],
+                onChanged: (val) => controller.businessType.value = val!,
+                decoration: const InputDecoration(
+                  labelText: 'Type of Business *',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
             const SizedBox(height: 12),
 
             /// Currently Using System (Yes/No – Mandatory)
-            Obx(() => SwitchListTile(
-                  title: const Text('Currently Using System'),
-                  value: controller.usingSystem.value,
-                  onChanged: (val) =>
-                      controller.usingSystem.value = val,
-                )),
+            Obx(
+              () => SwitchListTile(
+                title: const Text('Currently Using System'),
+                value: controller.usingSystem.value,
+                onChanged: (val) => controller.usingSystem.value = val,
+              ),
+            ),
 
             /// Customer Potential (Dropdown)
-            Obx(() => DropdownButtonFormField<String>(
-                  value: controller.customerPotential.value.isEmpty
-                      ? null
-                      : controller.customerPotential.value,
-                  items: const [
-                    DropdownMenuItem(
-                        value: 'Low', child: Text('Low')),
-                    DropdownMenuItem(
-                        value: 'Medium', child: Text('Medium')),
-                    DropdownMenuItem(
-                        value: 'High', child: Text('High')),
-                  ],
-                  onChanged: (val) =>
-                      controller.customerPotential.value = val!,
-                  decoration: const InputDecoration(
-                    labelText: 'Customer Potential',
-                    border: OutlineInputBorder(),
-                  ),
-                )),
+            Obx(
+              () => DropdownButtonFormField<String>(
+                value: controller.customerPotential.value.isEmpty
+                    ? null
+                    : controller.customerPotential.value,
+                items: const [
+                  DropdownMenuItem(value: 'Low', child: Text('Low')),
+                  DropdownMenuItem(value: 'Medium', child: Text('Medium')),
+                  DropdownMenuItem(value: 'High', child: Text('High')),
+                ],
+                onChanged: (val) => controller.customerPotential.value = val!,
+                decoration: const InputDecoration(
+                  labelText: 'Customer Potential',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
             const SizedBox(height: 16),
 
             /// GPS Location
-            Obx(() => ElevatedButton.icon(
-                  onPressed: controller.isFetchingLocation.value
-                      ? null
-                      : controller.getLocation,
-                  icon: const Icon(Icons.location_on),
-                  label: Text(
-                    controller.latitude.value == 0
-                        ? 'Get GPS Location'
-                        : 'Location Captured',
-                  ),
-                )),
+            Obx(
+              () => ElevatedButton.icon(
+                onPressed: controller.isFetchingLocation.value
+                    ? null
+                    : controller.getLocation,
+                icon: const Icon(Icons.location_on),
+                label: Text(
+                  controller.latitude.value == 0
+                      ? 'Get GPS Location'
+                      : 'Location Captured',
+                ),
+              ),
+            ),
 
             const SizedBox(height: 24),
 
             /// Save Button
             ElevatedButton(
               onPressed: controller.saveClient,
+              
               child: const Text('Save Client'),
             ),
           ],

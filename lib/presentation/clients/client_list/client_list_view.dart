@@ -45,16 +45,7 @@ class ClientListView extends GetView<ClientListViewModel> {
                       },
                     ),
 
-                    /// 📝 INTERACTIONS
-                    IconButton(
-                      icon: const Icon(Icons.note_alt),
-                      onPressed: () {
-                        Get.toNamed(
-                          '/interactions',
-                          arguments: client.id,
-                        );
-                      },
-                    ),
+               
                   ],
                 ),
               ),

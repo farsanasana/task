@@ -3,6 +3,8 @@ import 'package:task/presentation/clients/add_client/add_client_binding.dart';
 import 'package:task/presentation/clients/add_client/add_client_view.dart';
 import 'package:task/presentation/clients/client_list/client_list_binding.dart';
 import 'package:task/presentation/clients/client_list/client_list_view.dart';
+import 'package:task/presentation/clients/edit_client/edit_client_binding.dart';
+import 'package:task/presentation/clients/edit_client/edit_client_view.dart';
 import 'package:task/presentation/dashboard/dashboard_binding.dart';
 import '../presentation/auth/login/login_view.dart';
 import '../presentation/auth/login/login_binding.dart';
@@ -36,5 +38,11 @@ class AppPages {
       page: () => const AddClientView(),
       binding: AddClientBinding(),
     ),
+    GetPage(
+  name: AppRoutes.editClient,
+  page: () => const EditClientView(),
+  binding: EditClientBinding(),
+),
+
   ];
 }

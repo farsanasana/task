@@ -14,8 +14,10 @@ class ClientListViewModel extends GetxController {
   }
 
   void fetchClients() {
-    final userId = FirebaseAuth.instance.currentUser!.uid;
-    _datasource.getClients(userId).listen((data) {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    _datasource.getClients(user.uid).listen((data) {
       clients.value = data;
     });
   }

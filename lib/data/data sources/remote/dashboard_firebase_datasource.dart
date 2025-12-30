@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:task/data/models/client_model.dart';
 
-class ClientFirebaseDatasource {
+class DashboardFirebaseDatasource {
   CollectionReference<Map<String, dynamic>> _clientRef(String uid) {
     return FirebaseFirestore.instance
         .collection('users')
@@ -9,13 +9,18 @@ class ClientFirebaseDatasource {
         .collection('clients');
   }
 
-  Future<void> addClient(String uid, ClientModel client) async {
-    await _clientRef(uid).add(client.toJson());
+  /// 🔢 Total clients count
+  Stream<int> totalClients(String uid) {
+    return _clientRef(uid) 
+        .snapshots()
+        .map((snapshot) => snapshot.docs.length);
   }
 
-  Stream<List<ClientModel>> getClients(String uid) {
+  /// 🕒 Recent clients (last 3)
+  Stream<List<ClientModel>> recentClients(String uid) {
     return _clientRef(uid)
         .orderBy('createdAt', descending: true)
+        .limit(3)
         .snapshots()
         .map(
           (snapshot) => snapshot.docs

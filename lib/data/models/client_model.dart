@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ClientModel {
   final String id;
   final String userId;
@@ -10,6 +12,7 @@ class ClientModel {
   final double latitude;
   final double longitude;
   final String address;
+  final Timestamp createdAt;
 
   ClientModel({
     required this.id,
@@ -23,8 +26,30 @@ class ClientModel {
     required this.latitude,
     required this.longitude,
     required this.address,
+    required this.createdAt,
   });
 
+  /// 🔁 Firestore → Model
+  factory ClientModel.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+
+    return ClientModel(
+      id: doc.id,
+      userId: data['userId'] ?? '',
+      name: data['name'] ?? '',
+      phone: data['phone'] ?? '',
+      company: data['company'] ?? '',
+      businessType: data['businessType'] ?? '',
+      usingSystem: data['usingSystem'] ?? false,
+      potential: data['potential'] ?? '',
+      latitude: (data['latitude'] ?? 0).toDouble(),
+      longitude: (data['longitude'] ?? 0).toDouble(),
+      address: data['address'] ?? '',
+      createdAt: data['createdAt'] ?? Timestamp.now(),
+    );
+  }
+
+  /// 🔁 Model → Firestore
   Map<String, dynamic> toJson() => {
         'userId': userId,
         'name': name,
@@ -36,21 +61,6 @@ class ClientModel {
         'latitude': latitude,
         'longitude': longitude,
         'address': address,
+        'createdAt': createdAt,
       };
-
-  factory ClientModel.fromJson(String id, Map<String, dynamic> json) {
-    return ClientModel(
-      id: id,
-      userId: json['userId'],
-      name: json['name'],
-      phone: json['phone'],
-      company: json['company'],
-      businessType: json['businessType'],
-      usingSystem: json['usingSystem'],
-      potential: json['potential'],
-      latitude: json['latitude'],
-      longitude: json['longitude'],
-      address: json['address'],
-    );
-  }
 }

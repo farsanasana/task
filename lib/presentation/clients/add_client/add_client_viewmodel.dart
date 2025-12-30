@@ -42,25 +42,39 @@ class AddClientViewModel extends GetxController {
   }
 
   /// 💾 Save client
-  Future<void> saveClient() async {
-    if (!_validate()) return;
+Future<void> saveClient() async {
 
-    await _firestore.collection('clients').add({
-      'userId': _auth.currentUser!.uid,
-      'name': nameController.text.trim(),
-      'phone': phoneController.text.trim(),
-      'company': companyController.text.trim(),
-      'businessType': businessType.value,
-      'usingSystem': usingSystem.value,
-      'customerPotential': customerPotential.value,
-      'latitude': latitude.value,
-      'longitude': longitude.value,
-      'createdAt': Timestamp.now(),
-    });
 
-    Get.back();
-    Get.snackbar('Success', 'Client added successfully');
+  if (_auth.currentUser == null) {
+    Get.snackbar('Auth Error', 'User not logged in');
+    return;
   }
+
+  if (!_validate()) return;
+
+  final uid = _auth.currentUser!.uid;
+
+  await _firestore
+      .collection('users')
+      .doc(uid)
+      .collection('clients')
+      .add({
+    'name': nameController.text.trim(),
+    'phone': phoneController.text.trim(),
+    'company': companyController.text.trim(),
+    'businessType': businessType.value,
+    'usingSystem': usingSystem.value,
+    'customerPotential': customerPotential.value,
+    'latitude': latitude.value,
+    'longitude': longitude.value,
+    'createdAt': Timestamp.now(),
+  });
+
+  Get.back();
+  Get.snackbar('Success', 'Client added successfully');
+  
+  
+}
 
   bool _validate() {
     if (nameController.text.isEmpty) {
